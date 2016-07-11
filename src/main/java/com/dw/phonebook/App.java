@@ -7,17 +7,21 @@ import io.dropwizard.setup.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class App extends Application<Configuration> {
+import com.dw.phonebook.PhonebookConfiguration;
+
+public class App extends Application<PhonebookConfiguration> {
     private static final Logger LOGGER= LoggerFactory.getLogger(App.class);
 
     @Override
-    public void initialize(Bootstrap<Configuration> b) {}
+    public void initialize(Bootstrap<PhonebookConfiguration> b) {}
 
     @Override
-    public void run(Configuration c, Environment e) throws Exception {
+    public void run(PhonebookConfiguration c, Environment e) throws Exception {
         LOGGER.info("Method App#run() called");
 
-        System.out.println("Hello, World!");
+        for(int i=0; i < c.getMessageRepititions(); i++) {
+            System.out.println(c.getMessage());
+        }
     }
 
     public static void main( String[] args ) throws Exception {
