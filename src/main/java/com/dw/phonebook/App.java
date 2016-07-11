@@ -1,13 +1,11 @@
 package com.dw.phonebook;
 
+import com.dw.phonebook.resources.ContactResource;
 import io.dropwizard.Application;
-import io.dropwizard.Configuration;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.dw.phonebook.PhonebookConfiguration;
 
 public class App extends Application<PhonebookConfiguration> {
     private static final Logger LOGGER= LoggerFactory.getLogger(App.class);
@@ -22,6 +20,8 @@ public class App extends Application<PhonebookConfiguration> {
         for(int i=0; i < c.getMessageRepititions(); i++) {
             System.out.println(c.getMessage());
         }
+
+        e.jersey().register(new ContactResource());
     }
 
     public static void main( String[] args ) throws Exception {
