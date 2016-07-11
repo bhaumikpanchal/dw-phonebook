@@ -4,6 +4,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.dw.phonebook.representations.Contact;
+
 @Path("/contacts")
 @Produces(MediaType.APPLICATION_JSON)
 public class ContactResource {
@@ -14,7 +16,7 @@ public class ContactResource {
         //add code to retrieve a contact
 
         return Response
-                .ok("{contact_id: " + id + ", name: " + "\"Dummy Name\"" + ", phone: " + "\"+0123456789\"" + "}")
+                .ok(new Contact(id, "John", "Doe", "0123456789"))
                 .build();
     }
 
@@ -43,12 +45,13 @@ public class ContactResource {
     @Path("/{id}")
     public Response updateContact(
             @PathParam("id") int id,
-            @FormParam("name") String name,
+            @FormParam("firstName") String firstName,
+            @FormParam("lastName") String lastName,
             @FormParam("phone") String phone) {
         // update the contact with given id and info
 
         return Response
-                .ok("{contact_id: " + id + ", name: " + name + ", phone: " + phone + "}")
+                .ok(new Contact(id, firstName, lastName, phone))
                 .build();
     }
 }
