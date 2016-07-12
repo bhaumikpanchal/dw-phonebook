@@ -1,2 +1,7 @@
 message: YOUR_MESSAGE
 messageRepitiions: NUMBER_OF_REPITITIONS
+database:
+  driverClass: com.mysql.jdbc.Driver
+  user: DATABASE_USER
+  password: DATABASE_PASSWORD
+  url: DATABASE_URL

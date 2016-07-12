@@ -3,27 +3,33 @@ package com.dw.phonebook.resources;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.skife.jdbi.v2.DBI;
 
+import com.dw.phonebook.dao.ContactDAO;
 import com.dw.phonebook.representations.Contact;
 
 @Path("/contacts")
 @Produces(MediaType.APPLICATION_JSON)
 public class ContactResource {
 
+    private final ContactDAO contactDao;
+
+    public ContactResource(DBI jdbi) {
+        contactDao = jdbi.onDemand(ContactDAO.class);
+    }
+
     @GET
     @Path("/{id}")
     public Response getContact(@PathParam("id") int id) {
-        //add code to retrieve a contact
+        Contact contact = contactDao.getContactById(id);
 
         return Response
-                .ok(new Contact(id, "John", "Doe", "0123456789"))
+                .ok(contact)
                 .build();
     }
 
     @POST
-    public Response createContact(
-            @FormParam("name") String name,
-            @FormParam("phone") String phone) {
+    public Response createContact(Contact contact) {
         // add code to create a new contact
 
         return Response
@@ -45,13 +51,11 @@ public class ContactResource {
     @Path("/{id}")
     public Response updateContact(
             @PathParam("id") int id,
-            @FormParam("firstName") String firstName,
-            @FormParam("lastName") String lastName,
-            @FormParam("phone") String phone) {
+            Contact contact) {
         // update the contact with given id and info
 
         return Response
-                .ok(new Contact(id, firstName, lastName, phone))
+                .ok(new Contact(id, contact.getFirstName(), contact.getLastName(), contact.getPhone()))
                 .build();
     }
 }
