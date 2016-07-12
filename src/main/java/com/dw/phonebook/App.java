@@ -28,7 +28,7 @@ public class App extends Application<PhonebookConfiguration> {
         final DBI jdbi = factory.build(e, c.getDataSourceFactory(), "mysql");
 
         //Add resource to the environment
-        e.jersey().register(new ContactResource(jdbi));
+        e.jersey().register(new ContactResource(jdbi, e.getValidator()));
     }
 
     public static void main( String[] args ) throws Exception {
