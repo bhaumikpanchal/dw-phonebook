@@ -6,6 +6,8 @@ import javax.validation.Validator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import io.dropwizard.auth.Auth;
 import org.skife.jdbi.v2.DBI;
 
 import com.dw.phonebook.dao.ContactDAO;
@@ -30,7 +32,7 @@ public class ContactResource {
 
     @GET
     @Path("/{id}")
-    public Response getContact(@PathParam("id") int id) {
+    public Response getContact(@PathParam("id") int id, @Auth Boolean isAuthenticated) {
         //retrieve the contact with the given id
         Contact contact = contactDao.getContactById(id);
 
@@ -40,7 +42,7 @@ public class ContactResource {
     }
 
     @POST
-    public Response createContact(Contact contact) throws URISyntaxException{
+    public Response createContact(Contact contact, @Auth Boolean isAuthenticated) throws URISyntaxException{
 
         //validates the contact's data
         Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
@@ -71,7 +73,7 @@ public class ContactResource {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteContact(@PathParam("id") int id) {
+    public Response deleteContact(@PathParam("id") int id, @Auth boolean isAuthenticated) {
         //delete the contact with a given id
         contactDao.deleteContact(id);
 
@@ -84,7 +86,8 @@ public class ContactResource {
     @Path("/{id}")
     public Response updateContact(
             @PathParam("id") int id,
-            Contact contact) {
+            Contact contact,
+            @Auth Boolean isAuthenticated) {
 
         //validate the updated data
         Set<ConstraintViolation<Contact>> violations = validator.validate(contact);

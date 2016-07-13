@@ -3,6 +3,7 @@ package com.dw.phonebook;
 import com.dw.phonebook.resources.ClientResource;
 import com.dw.phonebook.resources.ContactResource;
 import io.dropwizard.Application;
+import io.dropwizard.auth.basic.BasicAuthProvider;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
@@ -36,6 +37,9 @@ public class App extends Application<PhonebookConfiguration> {
         //Build client and add the resource to the environment
         final Client client = new JerseyClientBuilder(e).build("REST Client");
         e.jersey().register(new ClientResource(client));
+
+        //Register Authenticator with the environment
+        e.jersey().register(new BasicAuthProvider<Boolean>(new PhonebookAuthentication(), "Web Service Realm"));
     }
 
     public static void main( String[] args ) throws Exception {
